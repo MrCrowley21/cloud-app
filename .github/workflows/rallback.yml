@@ -10,6 +10,11 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.29.2'
+
       - name: Rollback deployment
         run: |
           echo "Rolling back to the previous deployment..."
