@@ -49,5 +49,5 @@ jobs:
 
       - name: Update deployment
         run: |
-          kubectl set image deployment/cloud-app cloud-app=mrcrowley21/cloud_app:latest 
-          kubectl rollout restart deployment cloud-app
+          kubectl set image deployment/cloud-app cloud-app=mrcrowley21/cloud_app:latest -n default
+          kubectl rollout restart deployment cloud-app -n default
