@@ -1,0 +1,9 @@
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: Runner
+metadata:
+  name: cloud-app-runner
+  namespace: actions-runner-system
+spec:
+  repository: MrCrowley21/cloud-app
+  labels:
+    - self-hosted
