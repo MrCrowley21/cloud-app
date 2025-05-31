@@ -42,7 +42,13 @@ jobs:
           tags: mrcrowley21/cloud_app:latest
           no-cache: true
 
-      - name: Set image to latest in k8s deployment
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+
+      - name: Update deployment
         run: |
           kubectl set image deployment/cloud-app cloud-app=mrcrowley21/cloud_app:latest --record
           kubectl rollout restart deployment cloud-app
