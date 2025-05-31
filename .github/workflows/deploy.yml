@@ -42,12 +42,10 @@ jobs:
           tags: mrcrowley21/cloud_app:latest
           no-cache: true
 
-      - name: Install kubectl
-        run: |
-          KUBECTL_VERSION="v1.29.2"
-          curl -LO https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/kubectl
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.29.2'
 
       - name: Update deployment
         run: |
