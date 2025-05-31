@@ -1,0 +1,8 @@
+grafana:
+  enabled: true
+  service:
+    type: NodePort
+    nodePort: 30000
+    port: 3000
+  ingress:
+    enabled: false
