@@ -54,7 +54,12 @@ jobs:
         with:
           version: 'v1.29.2'
 
-      - name: Update deployment
+      - name: Replace image version and apply deployment
         run: |
-          sed "s|mrcrowley21/cloud_app:.*|mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }}|g" deployment.yaml | kubectl apply -f - -n default
-          kubectl rollout status deployment/cloud-app -n default
+          sed "s|mrcrowley21/cloud_app:.*|mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }}|g" deployment.yaml > updated-deployment.yaml
+          kubectl apply -f updated-deployment.yaml -n default
+
+      - name: Wait for deployment to finish
+        run: |
+          echo "Waiting for cloud-app deployment rollout to complete..."
+          kubectl rollout status deployment/cloud-app -n default --timeout=300s
