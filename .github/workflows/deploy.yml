@@ -55,9 +55,6 @@ jobs:
           version: 'v1.29.2'
 
       - name: Update deployment
-        env:
-          IMAGE_VERSION: ${{ steps.new_version.outputs.version }}
         run: |
-          sudo apt-get update && sudo apt-get install -y gettext-base
-          envsubst < deployment.yaml | kubectl apply -f - -n default
+          sed "s/\${IMAGE_VERSION}/${{ steps.new_version.outputs.version }}/g" deployment.yaml | kubectl apply -f - -n default
           kubectl rollout status deployment/cloud-app -n default
