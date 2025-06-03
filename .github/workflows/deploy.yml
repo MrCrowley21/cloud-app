@@ -17,7 +17,6 @@ jobs:
         run: |
           VERSION=$(git rev-parse --short=7 HEAD)
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "Git commit version: ${VERSION}"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -54,12 +53,7 @@ jobs:
         with:
           version: 'v1.29.2'
 
-      - name: Replace image version and apply deployment
+      - name: Update deployment
         run: |
-          sed "s|mrcrowley21/cloud_app:.*|mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }}|g" deployment.yaml > updated-deployment.yaml
-          kubectl apply -f updated-deployment.yaml -n default
-
-      - name: Wait for deployment to finish
-        run: |
-          echo "Waiting for cloud-app deployment rollout to complete..."
-          kubectl rollout status deployment/cloud-app -n default --timeout=300s
+          kubectl set image deployment/cloud-app cloud-app=mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }} -n default
+          kubectl rollout status deployment/cloud-app -n default
