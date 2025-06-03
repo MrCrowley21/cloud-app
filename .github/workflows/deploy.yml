@@ -12,6 +12,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Get Git commit SHA
+        id: new_version
+        run: |
+          VERSION=$(git rev-parse --short=7 HEAD)
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Git commit version: ${VERSION}"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -39,7 +46,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: mrcrowley21/cloud_app:latest
+          tags: mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }}
           no-cache: true
 
       - name: Setup kubectl
@@ -48,6 +55,8 @@ jobs:
           version: 'v1.29.2'
 
       - name: Update deployment
+        env:
+          IMAGE_VERSION: ${{ steps.new_version.outputs.version }}
         run: |
-          kubectl set image deployment/cloud-app cloud-app=mrcrowley21/cloud_app:latest -n default
-          kubectl rollout restart deployment cloud-app -n default
+          envsubst < deployment.yaml | kubectl apply -f - -n default
+          kubectl rollout status deployment/cloud-app -n default

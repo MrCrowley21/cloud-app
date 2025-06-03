@@ -12,7 +12,7 @@ class MainController {
     @GetMapping("/")
     fun main(): String {
         logger.info("Received request on /")
-        val response = "Hello World in the deploy for the presentation!!!"
+        val response = "Hello World in the deploy redone!!!"
         logger.debug("Response: $response")
         return response
     }

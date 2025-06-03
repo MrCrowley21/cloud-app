@@ -19,8 +19,8 @@ spec:
     spec:
       containers:
         - name: cloud-app
-          image: mrcrowley21/cloud_app:latest
-          imagePullPolicy: Always
+          image: mrcrowley21/cloud_app:${IMAGE_VERSION}
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
           livenessProbe:
@@ -30,17 +30,17 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 10
             failureThreshold: 3
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: 8080
-#            initialDelaySeconds: 5
-#            periodSeconds: 5
-#            timeoutSeconds: 2
-#            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 3
           resources:
             requests:
-              cpu: "50m"
+              cpu: "100m"
               memory: "160Mi"
             limits:
               cpu: "200m"
