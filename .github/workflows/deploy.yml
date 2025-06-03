@@ -56,5 +56,5 @@ jobs:
 
       - name: Update deployment
         run: |
-          sed "s/\${IMAGE_VERSION}/${{ steps.new_version.outputs.version }}/g" deployment.yaml | kubectl apply -f - -n default
-          kubectl wait --for=condition=available --timeout=300s deployment/cloud-app -n default
+          sed "s|mrcrowley21/cloud_app:.*|mrcrowley21/cloud_app:${{ steps.new_version.outputs.version }}|g" deployment.yaml | kubectl apply -f - -n default
+          kubectl rollout status deployment/cloud-app -n default
