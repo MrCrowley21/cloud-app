@@ -25,23 +25,24 @@ spec:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: 8080
-            initialDelaySeconds: 20
-            periodSeconds: 10
-            failureThreshold: 5
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            failureThreshold: 3
+
           readinessProbe:
             httpGet:
-              path: /
+              path: /actuator/health
               port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 30
+            periodSeconds: 10
             timeoutSeconds: 5
-            failureThreshold: 5
+            failureThreshold: 3
           resources:
             requests:
               cpu: "160m"
               memory: "256Mi"
             limits:
-              cpu: "200m"
-              memory: "212Mi"
+              cpu: "500m"
+              memory: "512Mi"
