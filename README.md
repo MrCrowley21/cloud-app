@@ -125,7 +125,7 @@ were created, including:
 and forwarding their logs to Loki with the right labels for querying in Grafana;
 * `promtain-daemonset` - ensures that logs from all pods on all nodes are collected 
 and forwarded to Loki; without a DaemonSet, logs from other nodes might be missed;
-* `promtai;-serviceacount.yaml` - ensures clean role separation, and can be extended 
+* `promtai-serviceacount.yaml` - ensures clean role separation, and can be extended 
 with RBAC if needed in the future.
 
 Loki is a log aggregation system developed by Grafana Labs, designed to work 
