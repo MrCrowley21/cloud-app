@@ -25,7 +25,7 @@ spec:
             - containerPort: 8080
           livenessProbe:
             httpGet:
-              path: /actuator/health
+              path: /
               port: 8080
             initialDelaySeconds: 60
             periodSeconds: 30
@@ -33,7 +33,7 @@ spec:
 
           readinessProbe:
             httpGet:
-              path: /actuator/health
+              path: /
               port: 8080
             initialDelaySeconds: 30
             periodSeconds: 10
