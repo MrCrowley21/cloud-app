@@ -28,13 +28,15 @@ spec:
               path: /
               port: 8080
             initialDelaySeconds: 30
-            periodSeconds: 10
-            failureThreshold: 15
+            periodSeconds: 15
+            failureThreshold: 12
+            timeoutSeconds: 10
           livenessProbe:
             httpGet:
               path: /
               port: 8080
-            periodSeconds: 30
+            periodSeconds: 60
+            timeoutSeconds: 10
             failureThreshold: 3
           readinessProbe:
             httpGet:
